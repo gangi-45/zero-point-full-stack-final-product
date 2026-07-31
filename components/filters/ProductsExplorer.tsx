@@ -9,12 +9,14 @@ import type {
   ConditionFilterValue,
 } from "@/components/filters/FilterBar";
 import { SearchInput } from "@/components/filters/SearchInput";
+import type { SiteSettings } from "@/types/content";
 
 type ProductsExplorerProps = {
   products: Product[];
+  site: SiteSettings;
 };
 
-export function ProductsExplorer({ products }: ProductsExplorerProps) {
+export function ProductsExplorer({ products, site }: ProductsExplorerProps) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilterValue>("all");
   const [condition, setCondition] = useState<ConditionFilterValue>("all");
@@ -59,6 +61,7 @@ export function ProductsExplorer({ products }: ProductsExplorerProps) {
 
       <ProductGrid
         products={filtered}
+        site={site}
         emptyMessage="অন্য কোনো কীওয়ার্ড দিয়ে খোঁজার চেষ্টা করুন বা ফিল্টার পরিবর্তন করুন।"
       />
     </div>

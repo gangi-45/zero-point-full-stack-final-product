@@ -5,15 +5,21 @@ import type { Product } from "@/types/product";
 import { Badge } from "@/components/shared/Badge";
 import { Button } from "@/components/shared/Button";
 import { WhatsAppIcon } from "@/components/shared/WhatsAppIcon";
-import { CONTACT, waLink } from "@/lib/constants";
+import type { SiteSettings } from "@/types/content";
+import { waLink } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 
 type ProductCardProps = {
   product: Product;
+  site: SiteSettings;
   priority?: boolean;
 };
 
-export function ProductCard({ product, priority = false }: ProductCardProps) {
+export function ProductCard({
+  product,
+  site,
+  priority = false,
+}: ProductCardProps) {
   const isUsed = product.condition === "used";
 
   return (
@@ -65,7 +71,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         </div>
         <div className="grid grid-cols-2 gap-2">
           <Button
-            href={waLink(`আসসালামু আলাইকুম, আমি "${product.title}" সম্পর্কে জানতে চাই। দাম: ${formatPrice(product.price)}`)}
+            href={waLink(site.whatsapp, `আসসালামু আলাইকুম, আমি "${product.title}" সম্পর্কে জানতে চাই। দাম: ${formatPrice(product.price)}`)}
             variant="primary"
             size="sm"
             target="_blank"
@@ -76,7 +82,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
             WhatsApp
           </Button>
           <Button
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${site.phone}`}
             variant="outline"
             size="sm"
             aria-label={`Call shop about ${product.title}`}

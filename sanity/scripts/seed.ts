@@ -17,6 +17,12 @@ import dotenv from "dotenv";
 import { createClient, type SanityClient } from "@sanity/client";
 import { MOCK_PRODUCTS } from "../../lib/mock-data";
 import type { Product } from "../../types/product";
+import {
+  DEFAULT_HERO_CONTENT,
+  DEFAULT_HOMEPAGE_CONTENT,
+  DEFAULT_SEO_SETTINGS,
+  DEFAULT_SITE_SETTINGS,
+} from "../../lib/mock-content";
 
 dotenv.config({ path: ".env.local" });
 
@@ -150,6 +156,97 @@ async function upsertProduct(
   }
 }
 
+async function upsertSingleton(
+  id: string,
+  type: string,
+  document: Record<string, unknown>,
+): Promise<void> {
+  const existing = await client.fetch<{ _id: string } | null>(
+    `*[_id == $id][0] { _id }`,
+    { id },
+  );
+
+  if (existing) {
+    await client.patch(existing._id).set(document).commit();
+    console.log(`~ Updated singleton: ${id} (${existing._id})`);
+  } else {
+    await client.create({ _id: id, _type: type, ...document });
+    console.log(`+ Created singleton: ${id}`);
+  }
+}
+
+async function seedContent(): Promise<void> {
+  const site = { ...DEFAULT_SITE_SETTINGS };
+  delete (site as Partial<typeof site>).phoneDisplay;
+  site.logo = null;
+  site.favicon = null;
+  site.socialLinks = DEFAULT_SITE_SETTINGS.socialLinks.map((link) => ({
+    ...link,
+  }));
+
+  await upsertSingleton("siteSettings", "siteSettings", site as unknown as Record<string, unknown>);
+
+  const heroImageRef = await uploadImage(
+    "hero-showcase",
+    DEFAULT_HERO_CONTENT.heroImage,
+  );
+
+  await upsertSingleton("heroContent", "heroContent", {
+    badge: DEFAULT_HERO_CONTENT.badge,
+    headline: DEFAULT_HERO_CONTENT.headline.map((segment) => ({ ...segment })),
+    subtitle: DEFAULT_HERO_CONTENT.subtitle,
+    heroImage: heroImageRef
+      ? {
+          _type: "image",
+          asset: { _type: "reference", _ref: heroImageRef },
+          alt: `${DEFAULT_SITE_SETTINGS.businessName} hero showcase`,
+        }
+      : undefined,
+    primaryCtaLabel: DEFAULT_HERO_CONTENT.primaryCtaLabel,
+    primaryCtaHref: DEFAULT_HERO_CONTENT.primaryCtaHref,
+    secondaryCtaLabel: DEFAULT_HERO_CONTENT.secondaryCtaLabel,
+    featuredProductTitle: DEFAULT_HERO_CONTENT.featuredProduct.title,
+    featuredProductSubtitle: DEFAULT_HERO_CONTENT.featuredProduct.subtitle,
+    featuredProductPrice: DEFAULT_HERO_CONTENT.featuredProduct.price,
+    ticker: DEFAULT_HERO_CONTENT.ticker,
+  });
+
+  await upsertSingleton("homepageContent", "homepageContent", {
+    customerStats: DEFAULT_HOMEPAGE_CONTENT.customerStats.map((stat) => ({
+      ...stat,
+    })),
+    trustBadges: DEFAULT_HOMEPAGE_CONTENT.trustBadges.map((badge) => ({
+      ...badge,
+    })),
+    featuredProductsSection: DEFAULT_HOMEPAGE_CONTENT.featuredProducts,
+    categoryShowcase: {
+      ...DEFAULT_HOMEPAGE_CONTENT.categoryShowcase,
+      categories: DEFAULT_HOMEPAGE_CONTENT.categoryShowcase.categories.map(
+        (category) => ({ ...category }),
+      ),
+    },
+    exchangeSection: {
+      ...DEFAULT_HOMEPAGE_CONTENT.exchangeSection,
+      points: DEFAULT_HOMEPAGE_CONTENT.exchangeSection.points.map((point) => ({
+        ...point,
+      })),
+    },
+    videoSection: {
+      ...DEFAULT_HOMEPAGE_CONTENT.videoSection,
+      videos: DEFAULT_HOMEPAGE_CONTENT.videoSection.videos.map((video) => ({
+        ...video,
+      })),
+    },
+    testimonials: [],
+  });
+
+  await upsertSingleton("seoSettings", "seoSettings", {
+    pageTitle: DEFAULT_SEO_SETTINGS.pageTitle,
+    metaDescription: DEFAULT_SEO_SETTINGS.metaDescription,
+    keywords: DEFAULT_SEO_SETTINGS.keywords,
+  });
+}
+
 async function main() {
   console.log("== Zero Point CMS: mock data migration ==\n");
   console.log(`Target: ${projectId} / ${dataset}\n`);
@@ -160,6 +257,9 @@ async function main() {
   for (const product of MOCK_PRODUCTS) {
     await upsertProduct(product, categoryRefs);
   }
+
+  console.log("\n-- Content settings --");
+  await seedContent();
 
   console.log("\n== Migration complete ==");
 }

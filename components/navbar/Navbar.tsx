@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/shared/Button";
 import { WhatsAppIcon } from "@/components/shared/WhatsAppIcon";
-import { CONTACT, waLink } from "@/lib/constants";
+import type { SiteSettings } from "@/types/content";
+import { waLink } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -15,10 +16,12 @@ const NAV_LINKS = [
   { href: "/#contact", label: "Contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ site }: { site: SiteSettings }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  const waText = `আসসালামু আলাইকুম, আমি ${site.businessName} এ পণ্য সম্পর্কে জানতে চাই।`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -55,17 +58,26 @@ export default function Navbar() {
           <Link
             href="/"
             className="flex items-center gap-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
-            aria-label="Zero Point — home"
+            aria-label={`${site.businessName} — home`}
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-sm font-black text-white shadow-glow">
-              ZP
-            </span>
+            {site.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={site.logo}
+                alt={site.businessName}
+                className="h-9 w-9 rounded-xl object-contain"
+              />
+            ) : (
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-sm font-black text-white shadow-glow">
+                {site.logoInitials}
+              </span>
+            )}
             <span className="flex flex-col leading-tight">
               <span className="text-base font-bold tracking-tight text-ink">
-                Zero Point
+                {site.businessName}
               </span>
               <span className="hidden text-[11px] font-medium text-ink-muted sm:block">
-                Buy · Sell · Exchange
+                {site.tagline}
               </span>
             </span>
           </Link>
@@ -96,16 +108,16 @@ export default function Navbar() {
 
           <div className="hidden items-center gap-2 md:flex">
             <Button
-              href={`tel:${CONTACT.phone}`}
+              href={`tel:${site.phone}`}
               variant="outline"
               size="sm"
-              aria-label={`Call us at ${CONTACT.phoneDisplay}`}
+              aria-label={`Call us at ${site.phoneDisplay}`}
             >
               <Phone className="h-4 w-4" aria-hidden="true" />
               Call
             </Button>
             <Button
-              href={waLink("আসসালামু আলাইকুম, আমি Zero Point এ পণ্য সম্পর্কে জানতে চাই।")}
+              href={waLink(site.whatsapp, waText)}
               variant="primary"
               size="sm"
               target="_blank"
@@ -163,17 +175,17 @@ export default function Navbar() {
             })}
             <div className="mt-3 grid grid-cols-2 gap-3">
               <Button
-                href={`tel:${CONTACT.phone}`}
+                href={`tel:${site.phone}`}
                 variant="outline"
                 size="lg"
                 fullWidth
-                aria-label={`Call us at ${CONTACT.phoneDisplay}`}
+                aria-label={`Call us at ${site.phoneDisplay}`}
               >
                 <Phone className="h-4 w-4" aria-hidden="true" />
                 Call
               </Button>
               <Button
-                href={waLink("আসসালামু আলাইকুম, আমি Zero Point এ পণ্য সম্পর্কে জানতে চাই।")}
+                href={waLink(site.whatsapp, waText)}
                 variant="primary"
                 size="lg"
                 fullWidth

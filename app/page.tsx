@@ -1,5 +1,9 @@
-import type { Metadata } from "next";
 import { getProducts } from "@/sanity/product-service";
+import {
+  getHeroContent,
+  getHomepageContent,
+  getSiteSettings,
+} from "@/lib/content-service";
 import Hero from "@/components/hero/Hero";
 import {
   CategoryShowcase,
@@ -8,22 +12,25 @@ import {
 } from "@/components/product/FeaturedProducts";
 import { VideoSection } from "@/components/video/VideoSection";
 
-export const metadata: Metadata = {
-  title: "Buy Sell Exchange in Mymensingh",
-  description:
-    "Zero Point — Mymensingh এর সেরা ফোন, ল্যাপটপ ও এক্সেসরিজ বাই-সেল-এক্সচেঞ্জ শপ। টেস্টেড পণ্য, সেরা দাম, ৭ দিনের ওয়ারেন্টি।",
-};
-
 export default async function HomePage() {
-  const products = await getProducts();
+  const [products, hero, homepage, site] = await Promise.all([
+    getProducts(),
+    getHeroContent(),
+    getHomepageContent(),
+    getSiteSettings(),
+  ]);
 
   return (
     <>
-      <Hero />
-      <FeaturedProducts products={products} />
-      <CategoryShowcase />
-      <ExchangePromo />
-      <VideoSection />
+      <Hero content={hero} homepage={homepage} site={site} />
+      <FeaturedProducts
+        products={products}
+        content={homepage.featuredProducts}
+        site={site}
+      />
+      <CategoryShowcase content={homepage.categoryShowcase} />
+      <ExchangePromo content={homepage.exchangeSection} />
+      <VideoSection content={homepage.videoSection} />
     </>
   );
 }

@@ -1,5 +1,10 @@
 # dependencies
 /node_modules
+/sanity/node_modules
+
+# sanity studio runtime
+/.sanity/
+/sanity/.sanity/
 
 # next.js
 /.next/

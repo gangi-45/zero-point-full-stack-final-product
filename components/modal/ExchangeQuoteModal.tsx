@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 type ExchangeModalProps = {
   open: boolean;
   onClose: () => void;
+  whatsapp: string;
 };
 
 const DEVICES = [
@@ -50,7 +51,11 @@ const initialState: FormState = {
   phone: "",
 };
 
-export function ExchangeQuoteModal({ open, onClose }: ExchangeModalProps) {
+export function ExchangeQuoteModal({
+  open,
+  onClose,
+  whatsapp,
+}: ExchangeModalProps) {
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormState>(initialState);
   const [error, setError] = useState("");
@@ -104,7 +109,7 @@ export function ExchangeQuoteModal({ open, onClose }: ExchangeModalProps) {
       `নাম: ${form.name}`,
       `ফোন: ${form.phone}`,
     ].join("\n");
-    window.open(waLink(message), "_blank", "noopener,noreferrer");
+    window.open(waLink(whatsapp, message), "_blank", "noopener,noreferrer");
     handleClose();
   };
 

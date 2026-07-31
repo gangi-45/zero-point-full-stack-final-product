@@ -4,11 +4,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ChevronLeft, Phone, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { getProductBySlug, getProducts } from "@/sanity/product-service";
+import { getSiteSettings } from "@/lib/content-service";
 import { Badge } from "@/components/shared/Badge";
 import { Button } from "@/components/shared/Button";
 import { Container } from "@/components/shared/Container";
 import { WhatsAppIcon } from "@/components/shared/WhatsAppIcon";
-import { CONTACT, waLink } from "@/lib/constants";
+import { waLink } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 
 type ProductPageProps = {
@@ -71,7 +72,10 @@ function ProductJsonLd({ product }: { product: NonNullable<Awaited<ReturnType<ty
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const product = await getProductBySlug(params.slug);
+  const [product, site] = await Promise.all([
+    getProductBySlug(params.slug),
+    getSiteSettings(),
+  ]);
 
   if (!product) {
     notFound();
@@ -169,7 +173,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button
-                href={waLink(`আসসালামু আলাইকুম, আমি "${product.title}" কিনতে আগ্রহী। দাম: ${formatPrice(product.price)}`)}
+                href={waLink(site.whatsapp, `আসসালামু আলাইকুম, আমি "${product.title}" কিনতে আগ্রহী। দাম: ${formatPrice(product.price)}`)}
                 variant="primary"
                 size="lg"
                 fullWidth
@@ -181,11 +185,11 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 WhatsApp Inquiry
               </Button>
               <Button
-                href={`tel:${CONTACT.phone}`}
+                href={`tel:${site.phone}`}
                 variant="outline"
                 size="lg"
                 fullWidth
-                aria-label={`Call shop at ${CONTACT.phoneDisplay}`}
+                aria-label={`Call shop at ${site.phoneDisplay}`}
               >
                 <Phone className="h-5 w-5" aria-hidden="true" />
                 Call Shop
@@ -193,7 +197,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </div>
 
             <p className="mt-4 text-xs leading-relaxed text-ink-muted">
-              শপে এসে সরাসরি পণ্য দেখে কেনার সুযোগ আছে। ঠিকানা: {CONTACT.addressShort}
+              শপে এসে সরাসরি পণ্য দেখে কেনার সুযোগ আছে। ঠিকানা: {site.addressShort}
             </p>
           </div>
         </div>

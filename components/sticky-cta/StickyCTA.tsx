@@ -1,26 +1,27 @@
 import { MapPin, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/shared/WhatsAppIcon";
-import { CONTACT, waLink } from "@/lib/constants";
+import type { SiteSettings } from "@/types/content";
+import { waLink } from "@/lib/constants";
 
-export function StickyCTA() {
+export function StickyCTA({ site }: { site: SiteSettings }) {
   const items = [
     {
       label: "Call",
-      href: `tel:${CONTACT.phone}`,
+      href: `tel:${site.phone}`,
       icon: <Phone className="h-5 w-5" aria-hidden="true" />,
       classes: "text-ink",
       bg: "bg-white/85",
     },
     {
       label: "WhatsApp",
-      href: waLink("আসসালামু আলাইকুম, আমি Zero Point এ পণ্য সম্পর্কে জানতে চাই।"),
+      href: waLink(site.whatsapp, `আসসালামু আলাইকুম, আমি ${site.businessName} এ পণ্য সম্পর্কে জানতে চাই।`),
       icon: <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />,
       classes: "text-white",
       bg: "bg-emerald-500",
     },
     {
       label: "Location",
-      href: CONTACT.mapsUrl,
+      href: site.mapsUrl,
       icon: <MapPin className="h-5 w-5" aria-hidden="true" />,
       classes: "text-ink",
       bg: "bg-white/85",

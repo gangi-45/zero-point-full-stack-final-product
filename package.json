@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "studio": "sanity dev",
+    "studio": "cd sanity && sanity dev",
     "seed": "tsx sanity/scripts/seed.ts"
   },
   "dependencies": {
@@ -20,7 +20,8 @@
     "next": "^14.2.35",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "styled-components": "^6.4.4"
   },
   "devDependencies": {
     "@sanity/vision": "^3.99.0",

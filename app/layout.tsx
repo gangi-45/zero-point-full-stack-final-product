@@ -2,93 +2,71 @@ import type { Metadata } from "next";
 import Navbar from "@/components/navbar/Navbar";
 import { Footer } from "@/components/footer/Footer";
 import { StickyCTA } from "@/components/sticky-cta/StickyCTA";
-import { CONTACT, SITE } from "@/lib/constants";
+import { getSeoSettings, getSiteSettings } from "@/lib/content-service";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(`https://${SITE.domain}`),
-  title: {
-    default: `${SITE.name} — Buy Sell Exchange | Mymensingh`,
-    template: `%s | ${SITE.name}`,
-  },
-  description: SITE.description,
-  keywords: [
-    "Zero Point",
-    "buy sell exchange",
-    "Mymensingh",
-    "ফোন বিক্রি",
-    "ল্যাপটপ কেনাবেচা",
-    "mobile exchange",
-    "used phone Mymensingh",
-    "iPhone Mymensingh",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "bn_BD",
-    url: `https://${SITE.domain}`,
-    siteName: SITE.brand,
-    title: `${SITE.name} — Buy Sell Exchange | Mymensingh`,
-    description: SITE.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE.name} — Buy Sell Exchange | Mymensingh`,
-    description: SITE.description,
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "/",
-  },
-};
+export const revalidate = 60;
 
-const localBusinessJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: SITE.brand,
-  image: `https://${SITE.domain}/logo.png`,
-  url: `https://${SITE.domain}`,
-  telephone: CONTACT.phone,
-  priceRange: "৳৳",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Chorpara Road",
-    addressLocality: "Mymensingh Sadar",
-    addressRegion: "Mymensingh",
-    postalCode: "2200",
-    addressCountry: "BD",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 24.7506,
-    longitude: 90.4064,
-  },
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ],
-    opens: "10:00",
-    closes: "21:00",
-  },
-  sameAs: [
-    "https://www.facebook.com/zeropointbyx",
-    "https://www.instagram.com/zeropointbyx",
-    "https://www.tiktok.com/@zeropointbyx",
-  ],
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [site, seo] = await Promise.all([getSiteSettings(), getSeoSettings()]);
+  const url = `https://${site.domain}`;
 
-export default function RootLayout({
+  return {
+    metadataBase: new URL(url),
+    title: {
+      default: seo.pageTitle,
+      template: `%s | ${site.businessName}`,
+    },
+    description: seo.metaDescription,
+    keywords: seo.keywords,
+    icons: site.favicon ? { icon: site.favicon } : undefined,
+    openGraph: {
+      type: "website",
+      locale: "bn_BD",
+      url,
+      siteName: site.brandName,
+      title: seo.pageTitle,
+      description: seo.metaDescription,
+      ...(seo.ogImage ? { images: [{ url: seo.ogImage }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.pageTitle,
+      description: seo.metaDescription,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: "/",
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const site = await getSiteSettings();
+  const url = `https://${site.domain}`;
+
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: site.brandName,
+    image: site.logo ?? `${url}/logo.png`,
+    url,
+    telephone: site.phone,
+    priceRange: "৳৳",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: site.address,
+      addressCountry: "BD",
+    },
+    openingHours: site.businessHours,
+    sameAs: site.socialLinks.map((link) => link.url),
+  };
+
   return (
     <html lang="bn">
       <body className="font-sans">
@@ -96,10 +74,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
-        <Navbar />
+        <Navbar site={site} />
         <main>{children}</main>
-        <Footer />
-        <StickyCTA />
+        <Footer site={site} />
+        <StickyCTA site={site} />
       </body>
     </html>
   );

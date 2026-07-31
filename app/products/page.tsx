@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getProducts } from "@/sanity/product-service";
+import { getSiteSettings } from "@/lib/content-service";
 import { ProductsExplorer } from "@/components/filters/ProductsExplorer";
 import { Container } from "@/components/shared/Container";
 
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  const products = await getProducts();
+  const [products, site] = await Promise.all([
+    getProducts(),
+    getSiteSettings(),
+  ]);
 
   return (
     <div className="pt-24 pb-16">
@@ -25,7 +29,7 @@ export default async function ProductsPage() {
           </p>
         </div>
 
-        <ProductsExplorer products={products} />
+        <ProductsExplorer products={products} site={site} />
       </Container>
     </div>
   );

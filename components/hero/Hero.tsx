@@ -1,20 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Star, ArrowRight, RefreshCcw, ShieldCheck, BadgeCheck } from "lucide-react";
+import {
+  Star,
+  ArrowRight,
+  RefreshCcw,
+  ShieldCheck,
+  BadgeCheck,
+  CheckCircle2,
+  Truck,
+  type LucideIcon,
+} from "lucide-react";
 import { Button } from "@/components/shared/Button";
 import { Container } from "@/components/shared/Container";
 import { ExchangeQuoteModal } from "@/components/modal/ExchangeQuoteModal";
-
-const TICKER_ITEMS = [
-  "🔥 এক্সচেঞ্জ বোনাস — পুরনো ফোনে ৩,০০০৳ পর্যন্ত অতিরিক্ত মূল্য",
-  "⚡ আজই এক্সচেঞ্জ করুন, সাথে সাথে অফার",
-  "🛡️ সব প্রোডাক্ট টেস্টেড ও ৭ দিনের ওয়ারেন্টি",
-  "💬 WhatsApp এ অর্ডার করুন — দ্রুত ডেলিভারি",
-  "💰 সেরা দামের নিশ্চয়তা — Mymensingh এ",
-];
+import type { HomepageContent, HeroContent, SiteSettings } from "@/types/content";
 
 const fadeUp = {
   initial: { opacity: 0, y: 16 },
@@ -23,7 +25,21 @@ const fadeUp = {
   transition: { duration: 0.4, ease: "easeOut" as const },
 };
 
-export default function Hero() {
+const TRUST_ICON_MAP: Record<string, LucideIcon> = {
+  shield: ShieldCheck,
+  check: CheckCircle2,
+  badge: BadgeCheck,
+  star: Star,
+  truck: Truck,
+};
+
+type HeroProps = {
+  content: HeroContent;
+  homepage: HomepageContent;
+  site: SiteSettings;
+};
+
+export default function Hero({ content, homepage, site }: HeroProps) {
   const [quoteOpen, setQuoteOpen] = useState(false);
 
   return (
@@ -39,23 +55,32 @@ export default function Hero() {
           <motion.div {...fadeUp}>
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-semibold text-ink-muted shadow-sm backdrop-blur-xl">
               <BadgeCheck className="h-4 w-4 text-brand-600" aria-hidden="true" />
-              Mymensingh এর বিশ্বস্ত Buy · Sell · Exchange শপ
+              {content.badge}
             </div>
 
             <h1 className="text-balance text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
-              সেরা দামে <span className="text-brand-600">কিনুন</span>,{" "}
-              <span className="text-brand-600">বিক্রি করুন</span>, আর{" "}
-              <span className="text-brand-600">এক্সচেঞ্জ</span> করুন
+              {content.headline.map((segment, index) => (
+                <Fragment key={index}>
+                  {segment.isAccent ? (
+                    <span className="text-brand-600">{segment.text}</span>
+                  ) : (
+                    segment.text
+                  )}
+                </Fragment>
+              ))}
             </h1>
 
             <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted sm:text-lg">
-              ফোন, ল্যাপটপ ও এক্সেসরিজ — সব টেস্টেড, গ্যারান্টি সহ। পুরনো ডিভাইস
-              এক্সচেঞ্জ করে নতুন প্রযুক্তিতে আপগ্রেড করুন, আজই।
+              {content.subtitle}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button href="/products" size="lg" aria-label="Browse inventory">
-                Browse Inventory
+              <Button
+                href={content.primaryCtaHref}
+                size="lg"
+                aria-label="Browse inventory"
+              >
+                {content.primaryCtaLabel}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Button>
               <Button
@@ -65,30 +90,35 @@ export default function Hero() {
                 aria-label="Get instant exchange quote"
               >
                 <RefreshCcw className="h-4 w-4" aria-hidden="true" />
-                Instant Exchange Quote
+                {content.secondaryCtaLabel}
               </Button>
             </div>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-              <div className="flex items-center gap-2">
-                <div className="flex" aria-hidden="true">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star
-                      key={index}
-                      className="h-4 w-4 fill-amber-400 text-amber-400"
-                    />
-                  ))}
+              {homepage.customerStats.map((stat, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div className="flex" aria-hidden="true">
+                    {Array.from({ length: 5 }).map((_, starIndex) => (
+                      <Star
+                        key={starIndex}
+                        className="h-4 w-4 fill-amber-400 text-amber-400"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-sm font-semibold text-ink" lang="bn">
+                    {stat.value} {stat.label}
+                  </p>
                 </div>
-                <p className="text-sm font-semibold text-ink" lang="bn">
-                  ৫০০+ সন্তুষ্ট কাস্টমার
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-emerald-500" aria-hidden="true" />
-                <p className="text-sm font-semibold text-ink">
-                  টেস্টেড ও ৭ দিনের ওয়ারেন্টি
-                </p>
-              </div>
+              ))}
+              {homepage.trustBadges.map((badge, index) => {
+                const Icon = TRUST_ICON_MAP[badge.icon] ?? ShieldCheck;
+                return (
+                  <div key={index} className="flex items-center gap-2">
+                    <Icon className="h-5 w-5 text-emerald-500" aria-hidden="true" />
+                    <p className="text-sm font-semibold text-ink">{badge.label}</p>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
 
@@ -100,8 +130,8 @@ export default function Hero() {
           >
             <div className="glass-card overflow-hidden p-3">
               <Image
-                src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900&q=80&auto=format&fit=crop"
-                alt="Featured smartphone showcase at Zero Point"
+                src={content.heroImage}
+                alt={`Featured showcase at ${site.businessName}`}
                 width={900}
                 height={900}
                 priority
@@ -110,14 +140,14 @@ export default function Hero() {
               <div className="flex items-center justify-between px-3 py-4">
                 <div>
                   <p className="text-sm font-bold text-ink">
-                    iPhone 13 Pro — 128GB
+                    {content.featuredProduct.title}
                   </p>
                   <p className="text-xs font-medium text-ink-muted">
-                    Like New · Tested &amp; Verified
+                    {content.featuredProduct.subtitle}
                   </p>
                 </div>
                 <div className="rounded-2xl bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-600">
-                  ৳82,000
+                  {content.featuredProduct.price}
                 </div>
               </div>
             </div>
@@ -131,7 +161,7 @@ export default function Hero() {
         aria-hidden="true"
       >
         <div className="flex w-max animate-ticker gap-10 whitespace-nowrap">
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, index) => (
+          {[...content.ticker, ...content.ticker].map((item, index) => (
             <span
               key={index}
               className="flex items-center gap-10 text-sm font-semibold text-ink-muted"
@@ -143,7 +173,11 @@ export default function Hero() {
         </div>
       </div>
 
-      <ExchangeQuoteModal open={quoteOpen} onClose={() => setQuoteOpen(false)} />
+      <ExchangeQuoteModal
+        open={quoteOpen}
+        onClose={() => setQuoteOpen(false)}
+        whatsapp={site.whatsapp}
+      />
     </section>
   );
 }

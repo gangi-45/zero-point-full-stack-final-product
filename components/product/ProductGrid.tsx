@@ -1,15 +1,18 @@
 import type { Product } from "@/types/product";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Button } from "@/components/shared/Button";
+import type { SiteSettings } from "@/types/content";
 
 type ProductGridProps = {
   products: Product[];
+  site: SiteSettings;
   emptyMessage?: string;
   showAllLink?: boolean;
 };
 
 export function ProductGrid({
   products,
+  site,
   emptyMessage = "কোনো পণ্য পাওয়া যায়নি।",
   showAllLink = false,
 }: ProductGridProps) {
@@ -29,7 +32,12 @@ export function ProductGrid({
     <div>
       <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((product, index) => (
-          <ProductCard key={product.id} product={product} priority={index < 4} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            site={site}
+            priority={index < 4}
+          />
         ))}
       </div>
       {showAllLink && (
