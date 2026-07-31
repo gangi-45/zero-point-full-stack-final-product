@@ -30,5 +30,10 @@ if (projectId) {
 
 export function urlFor(source: SanityImageSource | undefined | null): string {
   if (!source || !imageBuilder) return "";
-  return imageBuilder.image(source).auto("format").fit("max").url();
+  try {
+    return imageBuilder.image(source).auto("format").fit("max").url();
+  } catch (error) {
+    console.error("[sanity] Failed to build image URL:", error);
+    return "";
+  }
 }

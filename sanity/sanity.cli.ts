@@ -1,9 +1,10 @@
 import { defineCliConfig } from "sanity/cli";
+import type { InlineConfig } from "vite";
 import { dataset, projectId } from "./lib/env";
 
 export default defineCliConfig({
   api: { projectId, dataset },
-  vite: (prev) => ({
+  vite: (prev: InlineConfig) => ({
     ...prev,
     server: {
       ...prev.server,

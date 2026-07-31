@@ -1,5 +1,7 @@
 export function formatPrice(price: number): string {
-  return `৳${price.toLocaleString("en-US")}`;
+  const value = Number(price);
+  if (!Number.isFinite(value)) return "৳0";
+  return `৳${value.toLocaleString("en-US")}`;
 }
 
 export function slugify(text: string): string {

@@ -69,6 +69,19 @@ export default defineType({
       title: "Domain",
       type: "string",
       description: 'e.g. "zeropointbyx.com" — used for canonical URLs.',
+      validation: (rule) =>
+        rule
+          .max(120)
+          .custom((value) => {
+            if (!value) return true;
+            const candidate = value.replace(/^https?:\/\//, "").split("/")[0];
+            const hostnamePattern =
+              /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+            if (!hostnamePattern.test(candidate)) {
+              return "Enter a valid domain like example.com — no http://, path, or spaces.";
+            }
+            return true;
+          }),
     }),
     defineField({
       name: "description",

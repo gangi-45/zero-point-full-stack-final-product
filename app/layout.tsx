@@ -7,9 +7,20 @@ import "./globals.css";
 
 export const revalidate = 60;
 
+function siteBaseUrl(domain: string): string {
+  const candidate = /^https?:\/\//.test(domain) ? domain : `https://${domain}`;
+  try {
+    const parsed = new URL(candidate);
+    if (parsed.hostname) return parsed.origin;
+  } catch {
+    // invalid editable domain — fall back to the default below
+  }
+  return "https://zeropointbyx.com";
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const [site, seo] = await Promise.all([getSiteSettings(), getSeoSettings()]);
-  const url = `https://${site.domain}`;
+  const url = siteBaseUrl(site.domain);
 
   return {
     metadataBase: new URL(url),
@@ -48,7 +59,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const site = await getSiteSettings();
-  const url = `https://${site.domain}`;
+  const url = siteBaseUrl(site.domain);
 
   const localBusinessJsonLd = {
     "@context": "https://schema.org",

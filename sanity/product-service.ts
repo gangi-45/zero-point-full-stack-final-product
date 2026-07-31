@@ -52,9 +52,9 @@ function mapProduct(doc: SanityProductDoc): Product {
   const imageUrl = doc.image ? urlFor(doc.image) : "";
   return {
     id: doc._id,
-    title: doc.title,
-    slug: doc.slug,
-    price: doc.price,
+    title: doc.title ?? "",
+    slug: doc.slug ?? "",
+    price: Number.isFinite(Number(doc.price)) ? Number(doc.price) : 0,
     condition: doc.condition === "used" ? "used" : "new",
     category:
       doc.category === "accessory" || doc.category === "laptop"
