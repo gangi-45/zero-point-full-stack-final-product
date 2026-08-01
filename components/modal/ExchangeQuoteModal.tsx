@@ -127,7 +127,7 @@ export function ExchangeQuoteModal({
           return (
             <div
               key={stepNumber}
-              className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-200"
+              className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"
             >
               <div
                 className={cn(
@@ -154,7 +154,7 @@ export function ExchangeQuoteModal({
       {error && (
         <div
           role="alert"
-          className="mb-4 rounded-2xl border border-red-200/70 bg-red-50 px-4 py-3 text-sm font-medium text-red-600"
+          className="mb-4 rounded-2xl border border-red-200/70 bg-red-50 px-4 py-3 text-sm font-medium text-red-600 dark:border-red-800 dark:bg-red-950/50 dark:text-red-400"
         >
           {error}
         </div>
@@ -184,8 +184,8 @@ export function ExchangeQuoteModal({
                   className={cn(
                     "flex items-center justify-center gap-2 rounded-2xl border px-3 py-3 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60",
                     form.device === device
-                      ? "border-brand-500 bg-brand-50 text-brand-700 shadow-sm"
-                      : "border-slate-200/80 bg-white/70 text-ink hover:border-brand-300",
+                      ? "border-brand-500 bg-brand-50 text-brand-700 shadow-sm dark:bg-brand-500/15 dark:text-brand-300"
+                      : "border-slate-200/80 bg-white/70 text-ink hover:border-brand-300 dark:border-slate-700 dark:bg-slate-800/70 dark:hover:border-brand-400",
                   )}
                 >
                   <Smartphone className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -208,8 +208,8 @@ export function ExchangeQuoteModal({
                     className={cn(
                       "flex items-center justify-between gap-3 rounded-2xl border px-4 py-3.5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60",
                       form.condition === condition.value
-                        ? "border-brand-500 bg-brand-50 shadow-sm"
-                        : "border-slate-200/80 bg-white/70 hover:border-brand-300",
+                        ? "border-brand-500 bg-brand-50 shadow-sm dark:bg-brand-500/15"
+                        : "border-slate-200/80 bg-white/70 hover:border-brand-300 dark:border-slate-700 dark:bg-slate-800/70 dark:hover:border-brand-400",
                     )}
                   >
                     <span>
@@ -225,7 +225,7 @@ export function ExchangeQuoteModal({
                         "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
                         form.condition === condition.value
                           ? "border-brand-500 bg-brand-500 text-white"
-                          : "border-slate-300",
+                          : "border-slate-300 dark:border-slate-600",
                       )}
                       aria-hidden="true"
                     >

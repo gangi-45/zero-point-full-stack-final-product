@@ -92,7 +92,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <li>
               <Link
                 href="/"
-                className="transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                className="transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 dark:hover:text-brand-400"
               >
                 Home
               </Link>
@@ -101,7 +101,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <li>
               <Link
                 href="/products"
-                className="transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                className="transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 dark:hover:text-brand-400"
               >
                 Products
               </Link>
@@ -115,7 +115,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
         <Link
           href="/products"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 dark:text-brand-400"
         >
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           Back to Products
@@ -148,7 +148,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
               {product.title}
             </h1>
 
-            <p className="mt-3 text-3xl font-extrabold text-brand-600">
+            <p className="mt-3 text-3xl font-extrabold text-brand-600 dark:text-brand-400">
               {formatPrice(product.price)}
             </p>
 

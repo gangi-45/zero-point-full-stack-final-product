@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/shared/Button";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { WhatsAppIcon } from "@/components/shared/WhatsAppIcon";
 import type { SiteSettings } from "@/types/content";
 import { waLink } from "@/lib/constants";
@@ -47,7 +48,7 @@ export default function Navbar({ site }: { site: SiteSettings }) {
         className={cn(
           "transition-all duration-300",
           scrolled
-            ? "border-b border-white/60 bg-white/70 backdrop-blur-xl shadow-glass"
+            ? "border-b border-white/60 bg-white/70 backdrop-blur-xl shadow-glass dark:border-white/10 dark:bg-slate-900/80"
             : "bg-transparent",
         )}
       >
@@ -96,7 +97,7 @@ export default function Navbar({ site }: { site: SiteSettings }) {
                   className={cn(
                     "rounded-xl px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60",
                     active
-                      ? "bg-white/80 text-brand-600 shadow-sm"
+                      ? "bg-white/80 text-brand-600 shadow-sm dark:bg-white/10 dark:text-brand-400"
                       : "text-ink-muted hover:text-ink",
                   )}
                 >
@@ -107,6 +108,7 @@ export default function Navbar({ site }: { site: SiteSettings }) {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
+            <ThemeToggle />
             <Button
               href={`tel:${site.phone}`}
               variant="outline"
@@ -135,7 +137,7 @@ export default function Navbar({ site }: { site: SiteSettings }) {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/70 text-ink shadow-sm md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/70 text-ink shadow-sm md:hidden dark:bg-slate-800/70"
           >
             {menuOpen ? (
               <X className="h-5 w-5" aria-hidden="true" />
@@ -149,7 +151,7 @@ export default function Navbar({ site }: { site: SiteSettings }) {
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="border-b border-white/60 bg-white/85 backdrop-blur-xl shadow-glass-lg md:hidden"
+          className="border-b border-white/60 bg-white/85 backdrop-blur-xl shadow-glass-lg md:hidden dark:border-white/10 dark:bg-slate-900/90"
         >
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-1 px-4 py-4 sm:px-6">
             {NAV_LINKS.map((link) => {
@@ -165,14 +167,17 @@ export default function Navbar({ site }: { site: SiteSettings }) {
                   className={cn(
                     "rounded-2xl px-4 py-3.5 text-base font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60",
                     active
-                      ? "bg-brand-50 text-brand-600"
-                      : "text-ink hover:bg-slate-100/70",
+                      ? "bg-brand-50 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400"
+                      : "text-ink hover:bg-slate-100/70 dark:hover:bg-slate-800",
                   )}
                 >
                   {link.label}
                 </Link>
               );
             })}
+            <div className="mt-3 flex items-center justify-end gap-3 border-t border-slate-200/70 pt-4 dark:border-slate-700">
+              <ThemeToggle />
+            </div>
             <div className="mt-3 grid grid-cols-2 gap-3">
               <Button
                 href={`tel:${site.phone}`}

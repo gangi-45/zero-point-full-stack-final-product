@@ -61,7 +61,7 @@ function BrandLogo({ site }: { site: SiteSettings }) {
 
 export function Footer({ site }: { site: SiteSettings }) {
   return (
-    <footer className="border-t border-white/60 bg-white/60 pt-14 pb-24 backdrop-blur-xl md:pb-14">
+    <footer className="border-t border-white/60 bg-white/60 pt-14 pb-24 backdrop-blur-xl md:pb-14 dark:border-white/10 dark:bg-slate-900/60">
       <Container>
         <div id="contact" className="grid gap-10 scroll-mt-24 lg:grid-cols-3">
           <div>
@@ -80,7 +80,7 @@ export function Footer({ site }: { site: SiteSettings }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${social.label} — ${site.brandName}`}
-                      className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200/80 bg-white/70 text-ink-muted transition-all hover:border-brand-500 hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                      className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200/80 bg-white/70 text-ink-muted transition-all hover:border-brand-500 hover:text-brand-600 dark:text-brand-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 dark:border-slate-700 dark:bg-slate-800/70 dark:hover:text-brand-400"
                     >
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </a>
@@ -99,7 +99,7 @@ export function Footer({ site }: { site: SiteSettings }) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm font-medium text-ink-muted transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                    className="text-sm font-medium text-ink-muted transition-colors hover:text-brand-600 dark:text-brand-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
                   >
                     {link.label}
                   </Link>
@@ -114,15 +114,15 @@ export function Footer({ site }: { site: SiteSettings }) {
             </h2>
             <ul className="space-y-3.5 text-sm text-ink-muted">
               <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" aria-hidden="true" />
                 <span>{site.address}</span>
               </li>
               <li>
                 <a
                   href={`tel:${site.phone}`}
-                  className="flex items-center gap-3 font-semibold text-ink transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                  className="flex items-center gap-3 font-semibold text-ink transition-colors hover:text-brand-600 dark:text-brand-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
                 >
-                  <Phone className="h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+                  <Phone className="h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" aria-hidden="true" />
                   {site.phoneDisplay}
                 </a>
               </li>
@@ -140,14 +140,14 @@ export function Footer({ site }: { site: SiteSettings }) {
               <li>
                 <a
                   href={`mailto:${site.email}`}
-                  className="flex items-center gap-3 font-semibold text-ink transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                  className="flex items-center gap-3 font-semibold text-ink transition-colors hover:text-brand-600 dark:text-brand-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
                 >
-                  <Mail className="h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+                  <Mail className="h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" aria-hidden="true" />
                   {site.email}
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Clock className="h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
+                <Clock className="h-4 w-4 shrink-0 text-brand-600 dark:text-brand-400" aria-hidden="true" />
                 {site.businessHours}
               </li>
             </ul>
@@ -181,7 +181,7 @@ export function Footer({ site }: { site: SiteSettings }) {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200/70 pt-6 text-center text-xs text-ink-muted">
+        <div className="mt-10 border-t border-slate-200/70 pt-6 text-center text-xs text-ink-muted dark:border-slate-800">
           <p>
             © {new Date().getFullYear()} {site.brandName}. All rights reserved. ·{" "}
             {site.copyrightSuffix}

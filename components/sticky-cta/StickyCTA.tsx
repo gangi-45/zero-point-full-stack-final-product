@@ -10,7 +10,7 @@ export function StickyCTA({ site }: { site: SiteSettings }) {
       href: `tel:${site.phone}`,
       icon: <Phone className="h-5 w-5" aria-hidden="true" />,
       classes: "text-ink",
-      bg: "bg-white/85",
+      bg: "bg-white/85 dark:bg-slate-800/85",
     },
     {
       label: "WhatsApp",
@@ -24,14 +24,14 @@ export function StickyCTA({ site }: { site: SiteSettings }) {
       href: site.mapsUrl,
       icon: <MapPin className="h-5 w-5" aria-hidden="true" />,
       classes: "text-ink",
-      bg: "bg-white/85",
+      bg: "bg-white/85 dark:bg-slate-800/85",
     },
   ];
 
   return (
     <nav
       aria-label="Quick actions"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/60 bg-white/80 px-3 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/60 bg-white/80 px-3 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden dark:border-white/10 dark:bg-slate-900/80"
     >
       <div className="mx-auto grid max-w-md grid-cols-3 gap-2 py-2">
         {items.map((item) => (

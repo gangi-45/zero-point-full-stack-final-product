@@ -78,7 +78,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
       <button
         type="button"
         aria-label="Close dialog"
-        className="absolute inset-0 h-full w-full cursor-default bg-slate-900/40 backdrop-blur-sm"
+        className="absolute inset-0 h-full w-full cursor-default bg-slate-900/40 backdrop-blur-sm dark:bg-black/60"
         onClick={onClose}
         tabIndex={-1}
       />
@@ -88,7 +88,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
         aria-modal="true"
         aria-label={title}
         className={cn(
-          "relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-white/70 bg-white/90 p-6 shadow-glass-lg backdrop-blur-xl sm:max-w-lg sm:rounded-3xl",
+          "relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-white/70 bg-white/90 p-6 shadow-glass-lg backdrop-blur-xl sm:max-w-lg sm:rounded-3xl dark:border-white/10 dark:bg-slate-900/90",
           className,
         )}
       >
@@ -98,7 +98,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-ink-muted transition-colors hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-ink-muted transition-colors hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 dark:bg-slate-800 dark:hover:bg-slate-700"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>

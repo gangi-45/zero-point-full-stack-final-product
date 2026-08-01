@@ -84,32 +84,51 @@
   color-scheme: light;
   --font-inter: "Inter", system-ui, sans-serif;
   --font-hind-siliguri: "Hind Siliguri", "Inter", system-ui, sans-serif;
+  --ink: #0f172a;
+  --ink-muted: #64748b;
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-border: rgba(255, 255, 255, 0.62);
+}
+
+.dark {
+  color-scheme: dark;
+  --ink: #e2e8f0;
+  --ink-muted: #94a3b8;
+  --surface: rgba(30, 41, 59, 0.72);
+  --surface-border: rgba(51, 65, 85, 0.62);
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: #f8fafc;
+}
+
+html.dark {
+  background-color: #020617;
 }
 
 body {
-  @apply bg-slate-50 text-ink antialiased;
+  @apply bg-slate-50 text-ink antialiased dark:bg-slate-950;
   text-rendering: optimizeLegibility;
 }
 
 @layer components {
   .glass {
-    @apply border border-white/60 bg-white/60 backdrop-blur-xl;
+    @apply border bg-surface backdrop-blur-xl;
+    border-color: var(--surface-border);
     box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
   }
 
   .glass-card {
-    @apply rounded-3xl border border-white/70 bg-white/70 backdrop-blur-xl;
+    @apply rounded-3xl border bg-surface backdrop-blur-xl;
+    border-color: var(--surface-border);
     box-shadow:
       0 1px 2px rgba(15, 23, 42, 0.04),
       0 12px 32px rgba(15, 23, 42, 0.08);
   }
 
   .input-glass {
-    @apply w-full rounded-2xl border border-slate-200/80 bg-white/70 px-4 py-3 text-sm text-ink shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20;
+    @apply w-full rounded-2xl border border-slate-200/80 bg-white/70 px-4 py-3 text-sm text-ink shadow-sm outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-slate-700 dark:bg-slate-800/70 dark:placeholder:text-slate-500;
   }
 }
 
@@ -124,6 +143,15 @@ body {
   );
   background-size: 400% 100%;
   animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.dark .skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(51, 65, 85, 0.2) 25%,
+    rgba(51, 65, 85, 0.35) 37%,
+    rgba(51, 65, 85, 0.2) 63%
+  );
 }
 
 @keyframes shimmer {

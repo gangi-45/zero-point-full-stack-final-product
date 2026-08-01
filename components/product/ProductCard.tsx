@@ -27,9 +27,9 @@ export function ProductCard({
       <Link
         href={`/products/${product.slug}`}
         aria-label={`View ${product.title}`}
-        className="relative block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 focus-visible:ring-offset-2"
+        className="relative block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
       >
-        <div className="relative overflow-hidden bg-slate-100">
+        <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-800">
           <Image
             src={product.image}
             alt={product.title}
@@ -52,7 +52,7 @@ export function ProductCard({
             {product.title}
           </h3>
           <div className="mt-2 flex items-center justify-between gap-2">
-            <p className="text-lg font-extrabold text-brand-600">
+            <p className="text-lg font-extrabold text-brand-600 dark:text-brand-400">
               {formatPrice(product.price)}
             </p>
             {product.isFeatured && (
@@ -65,7 +65,7 @@ export function ProductCard({
       </Link>
 
       <div className="mt-auto space-y-2 px-4 pb-4">
-        <div className="flex items-center gap-3 border-t border-slate-100 pt-3 text-[11px] font-semibold text-ink-muted">
+        <div className="flex items-center gap-3 border-t border-slate-100 pt-3 text-[11px] font-semibold text-ink-muted dark:border-slate-700">
           <span className="flex items-center gap-1">✅ Tested &amp; Verified</span>
           <span className="flex items-center gap-1">🛡️ ৭ দিন Warranty</span>
         </div>

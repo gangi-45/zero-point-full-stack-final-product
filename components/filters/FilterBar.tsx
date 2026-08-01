@@ -44,7 +44,7 @@ export function FilterBar({
                 "shrink-0 rounded-2xl border px-4 py-2.5 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60",
                 category === item.value
                   ? "border-brand-500 bg-brand-500 text-white shadow-glow"
-                  : "border-slate-200/80 bg-white/70 text-ink-muted hover:border-brand-300 hover:text-ink",
+                  : "border-slate-200/80 bg-white/70 text-ink-muted hover:border-brand-300 hover:text-ink dark:border-slate-700 dark:bg-slate-800/70 dark:hover:border-brand-400",
               )}
             >
               {item.label}
@@ -70,7 +70,7 @@ export function FilterBar({
                     : item.value === "used"
                       ? "border-amber-500 bg-amber-500 text-white"
                       : "border-brand-500 bg-brand-500 text-white"
-                  : "border-slate-200/80 bg-white/70 text-ink-muted hover:border-slate-300",
+                  : "border-slate-200/80 bg-white/70 text-ink-muted hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800/70",
               )}
             >
               {item.label}

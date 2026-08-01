@@ -102,7 +102,7 @@ export function ExchangePromo({ content }: ExchangePromoProps) {
                 {content.points.map((point) => (
                   <li
                     key={point.title}
-                    className="rounded-2xl border border-slate-100 bg-white/70 px-4 py-3"
+                    className="rounded-2xl border border-slate-100 bg-white/70 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/70"
                   >
                     <p className="text-sm font-bold text-ink">{point.title}</p>
                     <p className="mt-0.5 text-xs leading-relaxed text-ink-muted">
@@ -112,7 +112,7 @@ export function ExchangePromo({ content }: ExchangePromoProps) {
                 ))}
               </ul>
             </div>
-            <div className="relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-500/10 via-white/40 to-indigo-400/10 p-10">
+            <div className="relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-500/10 via-white/40 to-indigo-400/10 p-10 dark:from-brand-500/10 dark:via-slate-800/40 dark:to-indigo-400/10">
               <div
                 className="pointer-events-none absolute inset-0"
                 aria-hidden="true"
@@ -121,7 +121,7 @@ export function ExchangePromo({ content }: ExchangePromoProps) {
                 <div className="absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-indigo-400/15 blur-3xl" />
               </div>
               <div className="relative max-w-sm text-center">
-                <p className="text-5xl font-extrabold text-brand-600">
+                <p className="text-5xl font-extrabold text-brand-600 dark:text-brand-400">
                   {content.bonusAmount}
                 </p>
                 <p className="mt-2 text-base font-semibold text-ink">

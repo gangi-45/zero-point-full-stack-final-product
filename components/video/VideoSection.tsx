@@ -21,7 +21,7 @@ export function VideoSection({ content }: VideoSectionProps) {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {content.videos.map((video) => (
             <figure key={video.youtubeId} className="glass-card overflow-hidden">
-              <div className="relative aspect-video w-full bg-slate-100">
+              <div className="relative aspect-video w-full bg-slate-100 dark:bg-slate-800">
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
                   title={video.title}

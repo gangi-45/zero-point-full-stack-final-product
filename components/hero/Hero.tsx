@@ -47,14 +47,14 @@ export default function Hero({ content, homepage, site }: HeroProps) {
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-500/15 blur-3xl" />
         <div className="absolute top-40 -left-32 h-80 w-80 rounded-full bg-indigo-300/20 blur-3xl" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-slate-50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-slate-50 dark:from-slate-900/60 dark:to-slate-950" />
       </div>
 
       <Container className="relative">
         <div className="grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-2 lg:gap-8">
           <motion.div {...fadeUp}>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-semibold text-ink-muted shadow-sm backdrop-blur-xl">
-              <BadgeCheck className="h-4 w-4 text-brand-600" aria-hidden="true" />
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-semibold text-ink-muted shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-slate-800/70">
+              <BadgeCheck className="h-4 w-4 text-brand-600 dark:text-brand-400" aria-hidden="true" />
               {content.badge}
             </div>
 
@@ -62,7 +62,7 @@ export default function Hero({ content, homepage, site }: HeroProps) {
               {content.headline.map((segment, index) => (
                 <Fragment key={index}>
                   {segment.isAccent ? (
-                    <span className="text-brand-600">{segment.text}</span>
+                    <span className="text-brand-600 dark:text-brand-400">{segment.text}</span>
                   ) : (
                     segment.text
                   )}
@@ -146,7 +146,7 @@ export default function Hero({ content, homepage, site }: HeroProps) {
                     {content.featuredProduct.subtitle}
                   </p>
                 </div>
-                <div className="rounded-2xl bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-600">
+                <div className="rounded-2xl bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400">
                   {content.featuredProduct.price}
                 </div>
               </div>
@@ -157,7 +157,7 @@ export default function Hero({ content, homepage, site }: HeroProps) {
       </Container>
 
       <div
-        className="relative overflow-hidden border-y border-white/60 bg-white/50 py-3 backdrop-blur-xl"
+        className="relative overflow-hidden border-y border-white/60 bg-white/50 py-3 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/50"
         aria-hidden="true"
       >
         <div className="flex w-max animate-ticker gap-10 whitespace-nowrap">
