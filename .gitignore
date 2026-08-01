@@ -5,6 +5,7 @@
 # sanity studio runtime
 /.sanity/
 /sanity/.sanity/
+/sanity/dist/
 
 # next.js
 /.next/
@@ -26,3 +27,6 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Vercel local
+.vercel
